@@ -1,0 +1,242 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>QR Print</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <div class="brand-icon">QR</div>
+            <div>
+                <h1>QR Print</h1>
+                <p>Wireless Printing System</p>
+            </div>
+        </div>
+
+        <span id="connectionStatus" class="status">
+            Checking...
+        </span>
+    </header>
+
+    <main class="container">
+
+        <section id="loginSection" class="card login-card">
+            <div class="section-heading">
+                <h2>Connect to QR Print</h2>
+                <p>Scan the QR code and enter your four-digit PIN.</p>
+            </div>
+
+            <div class="qr-area">
+                <img
+                    id="qrImage"
+                    src="/qr.png"
+                    alt="QR Print connection QR code"
+                >
+            </div>
+
+            <p class="address-label">Computer address</p>
+
+            <div id="phoneAddress" class="address">
+                Loading address...
+            </div>
+
+            <form id="loginForm">
+                <label for="pinInput">4-digit PIN</label>
+
+                <input
+                    id="pinInput"
+                    type="password"
+                    inputmode="numeric"
+                    pattern="[0-9]{4}"
+                    maxlength="4"
+                    placeholder="Enter PIN"
+                    autocomplete="off"
+                    required
+                >
+
+                <button type="submit" class="primary-button">
+                    Connect
+                </button>
+
+                <p id="loginMessage" class="message" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section id="mainSection" hidden>
+
+            <section class="card">
+                <div class="section-heading">
+                    <h2>Upload files</h2>
+                    <p>
+                        Select PDF documents or images from your phone
+                        or computer.
+                    </p>
+                </div>
+
+                <form id="uploadForm">
+                    <label for="fileInput" class="file-picker">
+                        <span class="upload-icon">↑</span>
+                        <strong>Select files</strong>
+                        <span>PDF, JPG, JPEG, PNG and BMP</span>
+                    </label>
+
+                    <input
+                        id="fileInput"
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png,.bmp,application/pdf,image/jpeg,image/png,image/bmp"
+                        multiple
+                    >
+
+                    <p id="selectedFiles" class="small-text">
+                        No files selected.
+                    </p>
+
+                    <button
+                        type="submit"
+                        id="uploadButton"
+                        class="primary-button"
+                    >
+                        Upload selected files
+                    </button>
+
+                    <p id="uploadMessage" class="message" aria-live="polite"></p>
+                </form>
+            </section>
+
+            <section class="card">
+                <div class="section-heading">
+                    <h2>Your files</h2>
+                    <p>Preview, print, or remove an individual file.</p>
+                </div>
+
+                <div id="fileList" class="file-list">
+                    <p class="empty-state">No files uploaded yet.</p>
+                </div>
+
+                <button
+                    id="refreshButton"
+                    type="button"
+                    class="secondary-button"
+                >
+                    Refresh file list
+                </button>
+            </section>
+
+            <section class="card">
+                <div class="section-heading">
+                    <h2>Print all</h2>
+                    <p>
+                        Keep PDF documents and images in separate groups.
+                    </p>
+                </div>
+
+                <div class="print-groups">
+                    <div class="print-group">
+                        <h3>PDF documents</h3>
+                        <p id="pdfSummary">0 PDF files</p>
+
+                        <button
+                            id="printAllPdfButton"
+                            type="button"
+                            class="primary-button"
+                            disabled
+                        >
+                            Print all PDFs
+                        </button>
+                    </div>
+
+                    <div class="print-group">
+                        <h3>Images</h3>
+                        <p id="imageSummary">0 image files</p>
+
+                        <button
+                            id="printAllImagesButton"
+                            type="button"
+                            class="primary-button"
+                            disabled
+                        >
+                            Print all images
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div class="section-heading">
+                    <h2>Printing</h2>
+                    <p>
+                        Printer selection and advanced settings are
+                        managed by the Windows application.
+                    </p>
+                </div>
+
+                <p class="small-text">
+                    Open QR Print on your computer to select a printer,
+                    configure paper size, color, copies, and duplex
+                    settings.
+                </p>
+
+                <button
+                    id="openComputerButton"
+                    type="button"
+                    class="secondary-button"
+                >
+                    Open computer printing page
+                </button>
+            </section>
+
+            <button id="logoutButton" type="button" class="logout-button">
+                Disconnect
+            </button>
+        </section>
+
+        <section id="previewModal" class="modal" hidden>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="previewTitle">Print preview</h2>
+
+                    <button
+                        id="closePreviewButton"
+                        type="button"
+                        class="close-button"
+                        aria-label="Close preview"
+                    >
+                        ×
+                    </button>
+                </div>
+
+                <iframe
+                    id="previewFrame"
+                    title="File preview"
+                ></iframe>
+
+                <div class="modal-actions">
+                    <button
+                        id="printPreviewButton"
+                        type="button"
+                        class="primary-button"
+                    >
+                        Open print dialog
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>QR Print · Local network printing</p>
+        <p>Port 8081</p>
+    </footer>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
+```
