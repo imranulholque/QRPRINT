@@ -1,0 +1,52 @@
+```yaml
+name: Build QR Print for Windows
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "app.py"
+      - "requirements.txt"
+      - "templates/**"
+      - "static/**"
+      - ".github/workflows/build.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build EXE
+        run: >-
+          pyinstaller --noconfirm --clean --onefile --console
+          --name QR-Print
+          --add-data "templates;templates"
+          --add-data "static;static"
+          app.py
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: QR-Print-Windows
+          path: dist/QR-Print.exe
+          if-no-files-found: error
+          retention-days: 14
+```
